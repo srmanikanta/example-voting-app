@@ -1,4 +1,4 @@
-ipipeline {
+pipeline {
   agent {
     node {
       label 'JENKINS'
