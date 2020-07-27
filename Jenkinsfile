@@ -9,7 +9,7 @@ pipeline {
       steps {
         sh 'docker build -t dockersamples/result ./result'
       }
-    } 
+    }
     stage('Build vote') {
       steps {
         sh 'docker build -t dockersamples/vote ./vote'
@@ -36,19 +36,19 @@ pipeline {
       }
       steps {
         withDockerRegistry(credentialsId: 'dockerbuildbot-index.docker.io', url:'') {
-          sh 'docker push dockersamples/vote'
-        }
-      }
-    }
-    stage('Push worker image') {
-      when {
-        branch 'master'
-      }
-      steps {
-        withDockerRegistry(credentialsId: 'dockerbuildbot-index.docker.io', url:'') {
           sh 'docker push dockersamples/worker'
         }
       }
     }
+    stage('Deployment') { 
+      when {
+          branch 'master'
+      }
+      steps {
+          sh 'kubectl apply -f kube-deployment.yml'
+      }
+    }
   }
 }
+                                                                                           1,1           Top
+
