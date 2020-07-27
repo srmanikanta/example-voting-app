@@ -5,14 +5,6 @@ pipeline {
     }
   }
   stages {
-    stage('Deployment') { 
-      when {
-          branch 'master'
-      }
-      steps {
-          sh 'kubectl apply -f kube-deployment.yml'
-      }
-    }
     stage('Build result') {
       steps {
         sh 'docker build -t dockersamples/result ./result'
@@ -48,6 +40,21 @@ pipeline {
         }
       }
     }
-  
+    stage('Create vote namespace') { 
+      when {
+          branch 'master'
+      }
+      steps {
+          sh 'kubectl create namespace vote'
+      }
+    }
+     stage('Create Deployment and service objects') { 
+      when {
+          branch 'master'
+      }
+      steps {
+          sh 'kubectl create -f k8s-specifications/'
+      }
+    }
   }
 }
