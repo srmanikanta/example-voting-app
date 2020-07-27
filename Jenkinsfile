@@ -1,10 +1,18 @@
-pipeline {
+ipipeline {
   agent {
     node {
       label 'JENKINS'
     }
   }
   stages {
+    stage('Deployment') { 
+      when {
+          branch 'master'
+      }
+      steps {
+          sh 'kubectl apply -f kube-deployment.yml'
+      }
+    }
     stage('Build result') {
       steps {
         sh 'docker build -t dockersamples/result ./result'
@@ -40,12 +48,7 @@ pipeline {
         }
       }
     }
-    stage('Deployment') { 
-      steps {
-          sh 'kubectl apply -f kube-deployment.yml'
-      }
-    }
+  
   }
 }
                                                                                            1,1           Top
-
