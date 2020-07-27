@@ -41,9 +41,6 @@ pipeline {
       }
     }
     stage('Deployment') { 
-      when {
-          branch 'master'
-      }
       steps {
           sh 'kubectl apply -f kube-deployment.yml'
       }
