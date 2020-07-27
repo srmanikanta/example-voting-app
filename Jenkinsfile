@@ -41,17 +41,11 @@ pipeline {
       }
     }
     stage('Create vote namespace') { 
-      when {
-          branch 'master'
-      }
       steps {
           sh 'kubectl create namespace vote'
       }
     }
-     stage('Create Deployment and service objects') { 
-      when {
-          branch 'master'
-      }
+    stage('Create Deployment and service objects') { 
       steps {
           sh 'kubectl create -f k8s-specifications/'
       }
